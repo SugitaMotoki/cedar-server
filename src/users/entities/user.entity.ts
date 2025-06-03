@@ -1,4 +1,11 @@
-import { Check, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Check,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { User as IUser } from "../interfaces/user.interface";
 
 /**
@@ -10,7 +17,7 @@ export class User implements IUser {
    * ID
    */
   @PrimaryGeneratedColumn()
-  id: number;
+  userId: number;
 
   /**
    * 名前
@@ -20,6 +27,38 @@ export class User implements IUser {
     type: "varchar",
   })
   name: string;
+
+  /**
+   * 誕生日
+   */
+  @Column({
+    type: "date",
+  })
+  birthday: Date;
+
+  /**
+   * パスワード
+   */
+  @Check("password <> ''")
+  @Column({
+    type: "varchar",
+    length: 126,
+  })
+  password: string;
+
+  /**
+   * 作成日（ORMが自動生成）
+   */
+  @CreateDateColumn({
+    update: false,
+  })
+  createdAt: Date;
+
+  /**
+   * 更新日（ORMが自動生成）
+   */
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   /**
    * コンストラクタ
