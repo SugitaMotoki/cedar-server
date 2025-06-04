@@ -1,7 +1,16 @@
-import { User } from "../interfaces/user.interface";
-
-export class CreateUserDto implements User {
+export class CreateUserDto {
+  /**
+   * 名前
+   */
   name: string;
+
+  /**
+   * 誕生日
+   */
   birthday: Date;
+
+  /**
+   * パスワード
+   */
   password: string;
 }

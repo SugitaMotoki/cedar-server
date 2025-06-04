@@ -3,16 +3,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { User as IUser } from "../interfaces/user.interface";
+import { Payment } from "src/payments/entities/payment.entity";
 
 /**
  * ユーザを表すエンティティ
  */
 @Entity()
-export class User implements IUser {
+export class User {
   /**
    * ID
    */
@@ -59,6 +61,14 @@ export class User implements IUser {
    */
   @UpdateDateColumn()
   updatedAt: Date;
+
+  /**
+   * 支払い
+   */
+  @OneToMany(() => Payment, (payment) => payment.payer, {
+    nullable: false,
+  })
+  payments: Relation<Payment[]>;
 
   /**
    * コンストラクタ
