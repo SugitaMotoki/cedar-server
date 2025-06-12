@@ -1,0 +1,31 @@
+## ユーザ
+
+### 追加
+
+### 全取得
+GET http://localhost:3000/users
+
+### 一部取得
+GET http://localhost:3000/users/1
+
+#### motoki
+POST http://localhost:3000/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "motoki",
+  "birthday": "2001-02-01",
+  "password": "momomo"
+}
+
+#### yu
+POST http://localhost:3000/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "yu",
+  "birthday": "1999-07-02",
+  "password": "yuuhan"
+}

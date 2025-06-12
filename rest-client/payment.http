@@ -1,0 +1,41 @@
+## 支払い
+
+### 全取得
+GET http://localhost:3000/payments
+
+### 一部取得
+GET http://localhost:3000/payments/2
+
+### 追加
+
+#### 東急ストア
+POST http://localhost:3000/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "東急",
+  "payerId": 1,
+  "payerAmount": 2000
+}
+
+### 支払い済みに変更
+PATCH  http://localhost:3000/payments/3
+Content-Type: application/json
+Accept: application/json
+{
+  "isSettled": true
+}
+
+## 割り勘
+### 
+POST http://localhost:3000/split-payments/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "paymentId": 2,
+  "contributorId": 2,
+  "owedAmount": 1000,
+  "paidAmount": 0
+}
