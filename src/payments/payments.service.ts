@@ -14,6 +14,7 @@ export class PaymentsService {
   /**
    * コンストラクタ
    * @param paymentRepository 支払いのリポジトリ
+   * @param usersService ユーザに関するサービス
    */
   constructor(
     @InjectRepository(Payment)
@@ -24,21 +25,21 @@ export class PaymentsService {
   /**
    * 支払いを作成する関数
    * @param createPaymentDto
-   * @returns
+   * @returns 作成した支払い（失敗したらnull）
    */
   async create(
     createPaymentDto: CreatePaymentDto,
   ): Promise<Readonly<Payment | null>> {
-    const user = await this.usersService.findByIdOrNull(
+    const payer = await this.usersService.findByIdOrNull(
       createPaymentDto.payerId,
     );
-    if (user === null) {
+    if (payer === null) {
       return null;
     }
     const payment = new Payment({
       name: createPaymentDto.name,
-      payer: user,
-      payerCost: createPaymentDto.payerCost,
+      payer,
+      payerAmount: createPaymentDto.payerAmount,
       isSettled: false,
     });
     try {
@@ -62,6 +63,9 @@ export class PaymentsService {
       },
       relations: {
         payer: true,
+        splitPayments: {
+          contributor: true,
+        },
       },
     });
     return payments;
@@ -79,6 +83,9 @@ export class PaymentsService {
       },
       relations: {
         payer: true,
+        splitPayments: {
+          contributor: true,
+        },
       },
     });
     return payment;

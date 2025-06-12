@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Payment } from "src/payments/entities/payment.entity";
+import { SplitPayment } from "src/split-payments/entities/split-payment.entity";
 
 /**
  * ユーザを表すエンティティ
@@ -69,6 +70,14 @@ export class User {
     nullable: false,
   })
   payments: Relation<Payment[]>;
+
+  /**
+   * 割り勘
+   */
+  @OneToMany(() => SplitPayment, (splitPayment) => splitPayment.contributor, {
+    nullable: false,
+  })
+  splitPayments: Relation<SplitPayment>;
 
   /**
    * コンストラクタ

@@ -4,11 +4,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { User } from "src/users/entities/user.entity";
+import { SplitPayment } from "src/split-payments/entities/split-payment.entity";
 
 /**
  * 支払いを表すエンティティ
@@ -44,7 +46,7 @@ export class Payment {
   @Column({
     type: "int",
   })
-  payerCost: number;
+  payerAmount: number;
 
   /**
    * 精算済みかどうか
@@ -67,6 +69,14 @@ export class Payment {
    */
   @UpdateDateColumn()
   updatedAt: Date;
+
+  /**
+   * 対応する割り勘支払い
+   */
+  @OneToMany(() => SplitPayment, (splitPayment) => splitPayment.payment, {
+    nullable: false,
+  })
+  splitPayments: Relation<SplitPayment>;
 
   /**
    * コンストラクタ

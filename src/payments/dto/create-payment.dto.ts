@@ -15,5 +15,5 @@ export class CreatePaymentDto {
   /**
    * 支払ったユーザが負担すべき金額
    */
-  payerCost: number;
+  payerAmount: number;
 }
