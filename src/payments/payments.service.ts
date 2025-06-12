@@ -54,7 +54,7 @@ export class PaymentsService {
 
   /**
    * 全ての支払いを返す関数
-   * @returns 全ての支払い（失敗したらnull）
+   * @returns 全ての支払い
    */
   findAll(): Promise<Readonly<Payment[]>> {
     const payments = this.paymentRepository.find({
