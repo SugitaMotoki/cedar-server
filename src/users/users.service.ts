@@ -2,10 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entities/user.entity";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
-import { User as IUser } from "./interfaces/user.interface";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
+/**
+ * ユーザに関するサービス
+ */
 @Injectable()
 export class UsersService {
   /**
@@ -22,12 +24,13 @@ export class UsersService {
    * @param createUserDto ユーザ作成用DTO
    * @returns 作成したユーザ（失敗したらnull）
    */
-  async create(createUserDto: CreateUserDto): Promise<Readonly<IUser | null>> {
+  async create(createUserDto: CreateUserDto): Promise<Readonly<User | null>> {
     const user = new User(createUserDto);
     try {
       await this.userRepository.save(user);
       console.log(`user ${user.userId}, ${user.name} added`);
     } catch (error: unknown) {
+      console.warn(`user ${user.userId}, ${user.name} couldn't add`);
       console.warn(error);
       return null;
     }
@@ -38,7 +41,7 @@ export class UsersService {
    * 全てのユーザを返す関数
    * @returns 全てのユーザ（失敗したらnull）
    */
-  findAll(): Promise<Readonly<IUser[]>> {
+  findAll(): Promise<Readonly<User[]>> {
     const users = this.userRepository.find({
       order: {
         createdAt: "ASC",
@@ -52,7 +55,7 @@ export class UsersService {
    * @param id ID
    * @returns IDに対応するユーザ（見つからなければnull）
    */
-  findOne(id: number): Promise<Readonly<IUser | null>> {
+  findByIdOrNull(id: number): Promise<Readonly<User | null>> {
     const user = this.userRepository.findOne({
       where: {
         userId: id,

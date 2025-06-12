@@ -4,6 +4,9 @@ import { AppService } from "./app.service";
 import { UsersModule } from "./users/users.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
+import { PaymentsModule } from "./payments/payments.module";
+import { SplitPaymentsModule } from "./split-payments/split-payments.module";
+import { CategoriesModule } from "./categories/categories.module";
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { ConfigModule } from "@nestjs/config";
       synchronize: true,
     }),
     UsersModule,
+    PaymentsModule,
+    SplitPaymentsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

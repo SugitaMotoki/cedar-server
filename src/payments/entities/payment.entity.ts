@@ -3,24 +3,25 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from "typeorm";
-import { Payment } from "src/payments/entities/payment.entity";
+import { User } from "src/users/entities/user.entity";
 import { SplitPayment } from "src/split-payments/entities/split-payment.entity";
 
 /**
- * ユーザを表すエンティティ
+ * 支払いを表すエンティティ
  */
 @Entity()
-export class User {
+export class Payment {
   /**
    * ID
    */
   @PrimaryGeneratedColumn()
-  userId: number;
+  paymentId: number;
 
   /**
    * 名前
@@ -32,22 +33,28 @@ export class User {
   name: string;
 
   /**
-   * 誕生日
+   * 支払ったユーザ
    */
-  @Column({
-    type: "date",
+  @ManyToOne(() => User, (user) => user.payments, {
+    nullable: false,
   })
-  birthday: Date;
+  payer: Relation<User>;
 
   /**
-   * パスワード
+   * 支払ったユーザが負担すべき金額
    */
-  @Check("password <> ''")
   @Column({
-    type: "varchar",
-    length: 126,
+    type: "int",
   })
-  password: string;
+  payerAmount: number;
+
+  /**
+   * 精算済みかどうか
+   */
+  @Column({
+    type: "boolean",
+  })
+  isSettled: boolean;
 
   /**
    * 作成日（ORMが自動生成）
@@ -64,17 +71,9 @@ export class User {
   updatedAt: Date;
 
   /**
-   * 支払い
+   * 対応する割り勘支払い
    */
-  @OneToMany(() => Payment, (payment) => payment.payer, {
-    nullable: false,
-  })
-  payments: Relation<Payment[]>;
-
-  /**
-   * 割り勘
-   */
-  @OneToMany(() => SplitPayment, (splitPayment) => splitPayment.contributor, {
+  @OneToMany(() => SplitPayment, (splitPayment) => splitPayment.payment, {
     nullable: false,
   })
   splitPayments: Relation<SplitPayment>;
@@ -83,7 +82,7 @@ export class User {
    * コンストラクタ
    * @param partial 部分型
    */
-  constructor(partial?: Partial<User>) {
+  constructor(partial?: Partial<Payment>) {
     Object.assign(this, partial);
   }
 }
