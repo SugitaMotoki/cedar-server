@@ -7,6 +7,7 @@ import { ConfigModule } from "@nestjs/config";
 import { PaymentsModule } from "./payments/payments.module";
 import { SplitPaymentsModule } from "./split-payments/split-payments.module";
 import { CategoriesModule } from "./categories/categories.module";
+import { ProfilesModule } from "./profiles/profiles.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CategoriesModule } from "./categories/categories.module";
     PaymentsModule,
     SplitPaymentsModule,
     CategoriesModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

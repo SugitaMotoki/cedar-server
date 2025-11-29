@@ -5,11 +5,6 @@ export class CreateUserDto {
   name: string;
 
   /**
-   * 誕生日
-   */
-  birthday: Date;
-
-  /**
    * パスワード
    */
   password: string;
