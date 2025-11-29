@@ -3,13 +3,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   Relation,
   UpdateDateColumn,
 } from "typeorm";
 import { Payment } from "src/payments/entities/payment.entity";
 import { SplitPayment } from "src/split-payments/entities/split-payment.entity";
+import { Profile } from "src/profiles/entities/profile.entity";
 
 /**
  * ユーザを表すエンティティ
@@ -30,14 +33,6 @@ export class User {
     type: "varchar",
   })
   name: string;
-
-  /**
-   * 誕生日
-   */
-  @Column({
-    type: "date",
-  })
-  birthday: Date;
 
   /**
    * パスワード
@@ -62,6 +57,13 @@ export class User {
    */
   @UpdateDateColumn()
   updatedAt: Date;
+
+  /**
+   * プロフィール
+   */
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Relation<Profile>;
 
   /**
    * 支払い
